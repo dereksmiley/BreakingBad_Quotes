@@ -1,4 +1,5 @@
 import requests
+import json
 from requests.exceptions import HTTPError
 
 # requests nth amount of quotes from breaking-bad-quotes
@@ -10,7 +11,10 @@ def get_quotes(numQuotes):
   response = requests.get(url + num)
 	
   if response.status_code == 200:
-      print(response.text)
+    data = response.text
+    json_obj = json.loads(data)
+    for obj in json_obj:
+      print(obj['quote'] + "  - " + obj['author'] + '\n')
+  
   else:
-      print("an error has occured : " + str(response.status_code))
-
+    print("an error has occured : " + str(response.status_code))
